@@ -1,15 +1,15 @@
 function getPlots(id) {
     //Read samples.json
         d3.json("samples.json").then (sampledata =>{
-            console.log(sampledata)
-            var ids = sampledata.samples[0].otu_ids;
-            console.log(ids)
-            var sampleValues =  sampledata.samples[0].sample_values.slice(0,10).reverse();
-            console.log(sampleValues)
-            var labels =  sampledata.samples[0].otu_labels.slice(0,10);
-            console.log (labels)
-        // get only top 10 otu ids for the plot OTU and reversing it.
-            var OTU_top = ( sampledata.samples[0].otu_ids.slice(0, 10)).reverse();
+            var samples = data.samples;
+            var result = samples.filter(sample => sample.id.tostring()=== id)[0]
+
+            var ids = result.otu_ids;
+            var sampleValues =  result.sample_values.slice(0,10).reverse();
+            var labels =  result.otu_lables.slice(0,10).reverse();
+        //     console.log (labels)
+        // // get only top 10 otu ids for the plot OTU and reversing it.
+        //     var OTU_top = ( sampledata.samples[0].otu_ids.slice(0, 10)).reverse();
         // get the otu id's to the desired form for the plot
             var OTU_id = OTU_top.map(d => "OTU " + d);
             console.log(`OTU IDS: ${OTU_id}`)
@@ -106,3 +106,23 @@ function getPlots(id) {
         });
     }
     init();
+}
+// create the function to get the necessary data
+function getDemoInfo(id) {
+// read the json file to get data
+    d3.json("samples.json").then((data)=> {
+// get the metadata info for the demographic panel
+        var metadata = data.metadata;
+        console.log(metadata)
+      // filter meta data info by id
+       var result = metadata.filter(meta => meta.id.toString() === id)[0];
+      // select demographic panel to put data
+       var demographicInfo = d3.select("#sample-metadata");
+     // empty the demographic info panel each time before getting new id info
+       demographicInfo.html("");
+     // grab the necessary demographic data data for the id and append the info to the panel
+        Object.entries(result).forEach((key) => {
+            demographicInfo.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");
+        });
+    });
+}
