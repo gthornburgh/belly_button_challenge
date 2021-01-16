@@ -64,3 +64,17 @@ function getPlots(id) {
                 height: 600,
                 width: 1000
             };
+
+            // define data 1
+            var data1 = [trace1];
+
+        // add bubble plot
+        Plotly.newPlot("bubble", data1, layout_2);
+        });
+    }
+
+
+    function getDemoInfo(id) {
+
+    // read the json file to get data
+        d3.json("samples.json").then((data)=> {
