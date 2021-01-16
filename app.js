@@ -112,3 +112,6 @@ function init() {
     });
 }
 init();
+
+// add function to retrieve data
+function getDemoInfo(id) {
