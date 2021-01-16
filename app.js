@@ -115,3 +115,7 @@ init();
 
 // add function to retrieve data
 function getDemoInfo(id) {
+
+// get data from json
+d3.json("samples.json").then((data)=> {
+    var metadata = data.metadata;
