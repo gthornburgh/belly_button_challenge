@@ -45,3 +45,22 @@ function getPlots(id) {
                 b: 30
             }
         };
+
+        // bar plot
+        Plotly.newPlot("bar", data, layout);
+            var trace1 = {
+                x: result.otu_ids,
+                y: result.sampleValues,
+                mode: "markers",
+                marker: {
+                    size: result.sampleValues,
+                    color: result.otu_ids
+                },
+                text:  result.otu_labels
+            };
+
+            var layout_2 = {
+                xaxis:{title: "OTU ID"},
+                height: 600,
+                width: 1000
+            };
