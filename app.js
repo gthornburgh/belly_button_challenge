@@ -9,44 +9,44 @@ function getPlots(id) {
             var ids = result.otu_ids;
             var sampleValues =  result.sample_values.slice(0,10).reverse();
             var labels =  result.otu_labels.slice(0,10).reverse();
-
+            
         // retrieve top 10 OTU
-        var OTU_top = ids.slice(0, 10).reverse();
+            var OTU_top = ids.slice(0, 10).reverse();
 
         // format OTU id
             var OTU_id = OTU_top.map(d => "OTU " + d);
             console.log(`OTU IDS: ${OTU_id}`)
 
          // lables
-         console.log(`OTU_labels: ${labels}`)
-         var trace = {
-             x: sampleValues,
-             y: OTU_id,
-             text: labels,
-             marker: {
-             color: 'blue'},
-             type:"bar",
-             orientation: "h",
-        };
+            console.log(`OTU_labels: ${labels}`)
+            var trace = {
+                x: sampleValues,
+                y: OTU_id,
+                text: labels,
+                marker: {
+                color: 'blue'},
+                type:"bar",
+                orientation: "h",
+            };
 
-         // define variable
-         var data = [trace];
+            // define variable
+            var data = [trace];
 
-         // set layout for plots
-        var layout = {
-            title: "Top 10 OTU",
-            yaxis:{
+            // set layout for plots
+            var layout = {
+                title: "Top 10 OTU",
+                yaxis:{
                     tickmode:"linear",
-            },
-            margin: {
-                l: 100,
-                r: 100,
-                t: 100,
-                b: 30
-            }
-        };
+                },
+                margin: {
+                    l: 100,
+                    r: 100,
+                    t: 100,
+                    b: 30
+                }
+            };
 
-        // bar plot
+            // bar plot
         Plotly.newPlot("bar", data, layout);
             var trace1 = {
                 x: result.otu_ids,
@@ -80,54 +80,55 @@ function getPlots(id) {
         d3.json("samples.json").then((data)=> {
 
     // get the metadata info for the demographic panel
-        var metadata = data.metadata;
-        console.log(metadata)
-        var result = metadata.filter(meta => meta.id.toString() === id)[0];
-        var demographicInfo = d3.select("#sample-metadata");
-        demographicInfo.html("");
-        Object.entries(result).forEach((key) => {
-            demographicInfo.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");
+            var metadata = data.metadata;
+            console.log(metadata)
+           var result = metadata.filter(meta => meta.id.toString() === id)[0];
+           var demographicInfo = d3.select("#sample-metadata");
+           demographicInfo.html("");
+            Object.entries(result).forEach((key) => {
+                demographicInfo.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");
+            });
         });
-    });
-}
-// create the function for the change event
-function optionChanged(id) {
-    getPlots(id);
-    getDemoInfo(id);
-}
-function init() {
-    // dropdown menu
-    var dropdown = d3.select("#selDataset");
+    }
+    // create the function for the change event
+    function optionChanged(id) {
+        getPlots(id);
+        getDemoInfo(id);
+    }
+    // create the function for the initial data rendering
+    function init() {
+        // dropdown menu
+        var dropdown = d3.select("#selDataset");
 
-    // read the data
-    d3.json("samples.json").then((data)=> {
-        console.log(data)
-        data.names.forEach(function(name) {
-            dropdown.append("option").text(name).property("value");
+        // read the data
+        d3.json("samples.json").then((data)=> {
+            console.log(data)
+            data.names.forEach(function(name) {
+                dropdown.append("option").text(name).property("value");
+            });
+
+            // display data / plots
+            getPlots(data.names[0]);
+            getDemoInfo(data.names[0]);
         });
-
-        // display data / plots
-        getPlots(data.names[0]);
-        getDemoInfo(data.names[0]);
-    });
-}
-init();
+    }
+    init();
 
 // add function to retrieve data
 function getDemoInfo(id) {
 
 // get data from json
-d3.json("samples.json").then((data)=> {
-    var metadata = data.metadata;
-    console.log(metadata)
-    var result = metadata.filter(meta => meta.id.toString() === id)[0];
-    var demographicInfo = d3.select("#sample-metadata");
-    demographicInfo.html("");
+    d3.json("samples.json").then((data)=> {
+        var metadata = data.metadata;
+        console.log(metadata)
+       var result = metadata.filter(meta => meta.id.toString() === id)[0];
+       var demographicInfo = d3.select("#sample-metadata");
+       demographicInfo.html("");
 
      // append
-     Object.entries(result).forEach((key) => {
-        demographicInfo.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");
+        Object.entries(result).forEach((key) => {
+            demographicInfo.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");
+        });
     });
-});
 }
 // end app
