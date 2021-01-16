@@ -78,3 +78,19 @@ function getPlots(id) {
 
     // read the json file to get data
         d3.json("samples.json").then((data)=> {
+
+    // get the metadata info for the demographic panel
+    var metadata = data.metadata;
+    console.log(metadata)
+   var result = metadata.filter(meta => meta.id.toString() === id)[0];
+   var demographicInfo = d3.select("#sample-metadata");
+   demographicInfo.html("");
+    Object.entries(result).forEach((key) => {
+        demographicInfo.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");
+    });
+});
+}
+// create the function for the change event
+function optionChanged(id) {
+getPlots(id);
+getDemoInfo(id);
