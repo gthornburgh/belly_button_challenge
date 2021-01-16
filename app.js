@@ -27,7 +27,21 @@ function getPlots(id) {
              color: 'blue'},
              type:"bar",
              orientation: "h",
-         };
+        };
 
          // define variable
          var data = [trace];
+
+         // set layout for plots
+        var layout = {
+            title: "Top 10 OTU",
+            yaxis:{
+                    tickmode:"linear",
+            },
+            margin: {
+                l: 100,
+                r: 100,
+                t: 100,
+                b: 30
+            }
+        };
