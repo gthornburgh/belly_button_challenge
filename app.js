@@ -16,3 +16,18 @@ function getPlots(id) {
         // format OTU id
             var OTU_id = OTU_top.map(d => "OTU " + d);
             console.log(`OTU IDS: ${OTU_id}`)
+
+         // lables
+         console.log(`OTU_labels: ${labels}`)
+         var trace = {
+             x: sampleValues,
+             y: OTU_id,
+             text: labels,
+             marker: {
+             color: 'blue'},
+             type:"bar",
+             orientation: "h",
+         };
+
+         // define variable
+         var data = [trace];
